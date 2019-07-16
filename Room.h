@@ -34,21 +34,22 @@ class Room{
         bool IsUserExist(string);
         void ListAllUser();
 };
-vector<Room> room_list;
-void ReadRoomFile(string file_name, vector<Room>*rl)
+
+void ReadRoomFile(string file_name, vector<Room> &rl)
 {
     ifstream file(file_name,ios::in);
     rl.clear();
     int number;
+    int id, num;
+    string tmp;
     file>>number;
     for(int i=0;i<number;i++)
     {
-        int id, num;
         file >> id >> num;
         vector<string> tmp_l;
         for(int j=0; j<num; j++)
         {
-            string tmp;
+            file  >> tmp;
             tmp_l.push_back(tmp);
         }
         Room R(id,tmp_l);
@@ -56,9 +57,19 @@ void ReadRoomFile(string file_name, vector<Room>*rl)
     }
     file.close();
 }
-/* void WriteRoomFile(string *file_name)
+void WriteRoomFile(string file_name, vector<Room> &rl)
 {
-    fstream file;
-    file.open(file_name,ios::out);
+    ofstream file(file_name, ios::out);
+    file << rl.size() << endl;
+    for(int i=0; i<rl.size(); i++)
+    {
+        file << rl[i].get_room_id() << " " << rl[i].get_room_member().size() << endl;
+        for(int  j=0; j < rl[i].get_room_member().size(); j++)
+        {
+            file << rl[i].get_room_member().at(j);
+            file << endl;
+        }
+    }
+    rl.clear();
     file.close();
-}*/
+}
